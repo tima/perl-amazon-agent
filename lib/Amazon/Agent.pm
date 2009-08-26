@@ -38,9 +38,10 @@ sub request {
     my $request_class  = delete $params{request_class};
     my $response_class = delete $params{response_class};
     my $error_class    = delete $params{error_class};
-    $request_class       ||= $self->{request_class};
-    $response_class      ||= $self->{response_class};
-    $error_class         ||= $self->{error_class};
+    $request_class  ||= $self->{request_class};
+    $response_class ||= $self->{response_class};
+    $error_class    ||= $self->{error_class};
+
     # $params{http_method} ||= 'GET';
     # add access and secret
     eval "use $request_class;";
@@ -52,12 +53,11 @@ sub request {
     if (defined($content) && $content ne '') {
         my $tree;
         eval {
-            $tree =
-              XMLIn(
-                    $content,
-                    'ForceArray' => $self->{xml_force_array},
-                    'KeepRoot'   => 1,
-              );
+            $tree = XMLIn(
+                $content,
+                'ForceArray' => $self->{xml_force_array},
+                'KeepRoot'   => 1,
+            );
         };
         return $self->error($@) if $@;
         $content = $tree;
@@ -69,13 +69,13 @@ sub request {
     eval "use $use_class;";
     return $self->error($@) if $@;
     my $args = {
-                'http_response' => $res,
-                'content'       => $content,
-                'response_type' => $res->header('Content-Type'),
+        'http_response' => $res,
+        'content'       => $content,
+        'response_type' => $res->header('Content-Type'),
     };
     my $fetch = $use_class->new($args);
     unshift @{$self->{history}}, $fetch;
-    while (exists $self->{history}->[10]) {   # 10 needs to be a config variable
+    while (exists $self->{history}->[10]) { # 10 needs to be a config variable
         pop @{$self->{history}};
     }
     $self->{last_error} = $fetch if $use_class eq $error_class;

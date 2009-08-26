@@ -7,22 +7,23 @@ use base qw(HTTP::Request Class::ErrorHandler);
 use Amazon::Util qw( amazon_timestamp amazon_signature);
 
 sub new {
-    my $class         = shift;
-    my $params        = shift || {};    
-    my $self          = bless {}, $class;
+    my $class  = shift;
+    my $params = shift || {};
+    my $self   = bless {}, $class;
     return $self->init(%$params);
 }
 
 sub init {
-    my $self = shift;
+    my $self      = shift;
     my %sign_hash = @_;
-    my $url           = delete $sign_hash{'endpoint'};
-    my $secret        = delete $sign_hash{'secret_key'};  
-    delete $sign_hash{'Signature'}; # safety
+    my $url       = delete $sign_hash{'endpoint'};
+    my $secret    = delete $sign_hash{'secret_key'};
+    delete $sign_hash{'Signature'};    # safety
     unless ($sign_hash{'Timestamp'} || $sign_hash{'Expires'}) {
         $sign_hash{'Timestamp'} = amazon_timestamp();
     }
     $sign_hash{'Signature'} = amazon_signature(\%sign_hash);
+
 # ????
 }
 

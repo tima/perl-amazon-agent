@@ -27,9 +27,10 @@ sub amazon_signature {
     for my $key (sort { lc($a) cmp lc($b) } keys %sign_hash) {
         $sign_this .= $key . $sign_hash{$key};
     }
-    my $hashed = Digest::HMAC_SHA1->new($secret_access_key); # secret_access_key
+    my $hashed =
+      Digest::HMAC_SHA1->new($secret_access_key);    # secret_access_key
     $hashed->add($sign_this);
-    return encode_base64($hashed->digest, '');               # encoded signature
+    return encode_base64($hashed->digest, '');       # encoded signature
 }
 
 # Won't this die if a hash or like reference got passed in? do we care?
@@ -39,8 +40,9 @@ sub is_amazon_error_response {
     my $is_amazon =
         $r->isa('Amazon::Response') ? 1
       : $r->isa('HTTP::Response')   ? 0
-      : die 'A valid response object was not passed in.';
-    my $is_http_error = $is_amazon ? $r->http_response->is_error : $r->is_error;
+      :   die 'A valid response object was not passed in.';
+    my $is_http_error =
+      $is_amazon ? $r->http_response->is_error : $r->is_error;
     return 1 if $is_http_error;
     my $content = $is_amazon ? $r->http_response->content : $r->content;
     return 0 unless defined $content && $content ne '';

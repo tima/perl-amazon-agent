@@ -2,9 +2,9 @@
 \.old$
 \.bak$
 ^build
-# ^MANIFEST
+#^MANIFEST
 Makefile
-^t\b
+#^t\b
 test
 ^\._
 blib

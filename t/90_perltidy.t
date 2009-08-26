@@ -1,15 +1,12 @@
 #!perl
 
-# Test that our MANIFEST file is accurate
+# Test that our code has been tidied
 
 use strict;
 use warnings;
 use Test::More;
 
-# $ENV{MANIFEST_WARN_ONLY} = 1;
-# export MANIFEST_WARN_ONLY=1;
-
-my $MODULE = 'Test::DistManifest';
+my $MODULE = 'Test::PerlTidy';
 
 # Don't run tests for installs
 unless ($ENV{AUTOMATED_TESTING} or $ENV{RELEASE_TESTING}) {
@@ -23,4 +20,4 @@ if ($@) {
       ? die("Failed to load required release-testing module $MODULE")
       : plan(skip_all => "$MODULE not available for testing");
 }
-manifest_ok('MANIFEST', 'MANIFEST.SKIP');
+run_tests();

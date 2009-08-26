@@ -10,3 +10,10 @@ MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
 README
+t/01_compile.t
+t/50_util_export.t
+t/90_perltidy.t
+t/96_manifest.t
+t/97_meta.t
+t/98_pod_syntax.t
+t/99_pod_coverage.t
