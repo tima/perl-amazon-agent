@@ -1,0 +1,38 @@
+Amazon::Agent is a generic user agent for making and
+receiving requests from Amazon web services.
+
+This is code is in the early stages of development. Do not
+consider it stable. Feedback and patches welcome.
+
+Testing and further development of this package will be as
+packages for working with various AWS services are developed.
+
+INSTALLATION
+
+To install this module type the following:
+
+    perl Makefile.PL
+    make 
+    make test 
+    make install
+
+DEPENDENCIES
+
+Class::ErrorHandler
+Data::Dumper
+Digest::HMAC_SHA1
+Exporter
+HTTP::Date
+HTTP::Request
+HTTP::Response
+LWP::UserAgent
+MIME::Base64
+XML::Simple
+
+COPYRIGHT AND LICENCE
+
+The software is released under the Artistic License. The
+terms of the Artistic License are described at
+http://www.perl.com/language/misc/Artistic.html. Except
+where otherwise noted, Amazon::Agent is Copyright
+2009, Timothy Appnel, tima@cpan.org. All rights reserved.
