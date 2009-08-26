@@ -13,3 +13,4 @@ use_ok( 'Amazon::ErrorResponse' );
 use_ok( 'Amazon::Request' );
 use_ok( 'Amazon::Response' );
 use_ok( 'Amazon::Util' );
+
