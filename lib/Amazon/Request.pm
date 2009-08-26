@@ -2,7 +2,7 @@ package Amazon::Request;
 use strict;
 use warnings;
 
-use base 'HTTP::Request Class::ErrorHandler';
+use base qw(HTTP::Request Class::ErrorHandler);
 
 use Amazon::Util qw( amazon_timestamp amazon_signature);
 
@@ -16,31 +16,56 @@ sub new {
 sub init {
     my $self = shift;
     my %sign_hash = @_;
-    my $url           = delete $params->{'endpoint'};
-    my $secret        = delete $params->{'secret_key'};  
+    my $url           = delete $sign_hash{'endpoint'};
+    my $secret        = delete $sign_hash{'secret_key'};  
     delete $sign_hash{'Signature'}; # safety
     unless ($sign_hash{'Timestamp'} || $sign_hash{'Expires'}) {
         $sign_hash{'Timestamp'} = amazon_timestamp();
     }
-    $sign_hash{'Signature'} = amazon_signature($sign_hash);
-    
+    $sign_hash{'Signature'} = amazon_signature(\%sign_hash);
+# ????
 }
 
 1;
 
 __END__
 
-generate_query ???? internal method the validates 
-    #   Action
-    #   AWSAccessKeyID
-    #   Version
-    #   Signature (this is appending right before the request)
-    #   SignatureVersion
-    #   Timestamp
-    #   Expires (Not sure about SimpleDB)
-    # should this validation/defaults be in request
-    # version, signature version check. required.
-    # access key and secret key or bezos object
-    my $secret_access_key  = delete $sign_hash{AWSSecretKey}; 
-    # or expires (grab from cache manager)
-    $sign_hash{Timestamp}  = amazon_timestamp(); # deal with expires
+=begin
+
+=head1 NAME
+
+Amazon::Request - a class representing a generic request
+to an Amazon Web Service service.
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+B<This is code is in the early stages of development. Do not
+consider it stable. Feedback and patches welcome.>
+
+This is a subclass L<HTTP::Request> and
+L<Class::ErrorHandler>. See their manpage for more.
+
+=head1 METHODS
+
+=item Amazon::Request->new
+
+=item $request->init
+
+=head1 DEPENDENCIES
+
+L<Module::Name>
+
+=head1 SEE ALSO
+
+L<Amazon::Agent>
+
+=head1 AUTHOR & COPYRIGHT
+
+Please see the L<Amazon::Agent> manpage for author,
+copyright, and license information.
+
+=cut
+
+=end

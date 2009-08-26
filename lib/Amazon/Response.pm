@@ -38,10 +38,12 @@ sub is_error {
 
 __END__
 
+=begin
+
 =head1 NAME
 
-Amazon::SimpleDB::Response - a class representing a generic
-response from the SimpleDB service.
+Amazon::Response - a class representing a generic response
+from an AWS service.
 
 =head1 DESCRIPTION
 
@@ -51,14 +53,14 @@ consider it stable. Feedback and patches welcome.>
 This is a generic response class for the results of any
 request that does not require special handling. The class is
 the base class to specialized response classes such as
-L<Amazon::ErrorResponse> and L<Amazon::QueryResponse>.
+L<Amazon::ErrorResponse>.
 
 =head1 METHODS
 
-=head2 Amazon::SimpleDB::Response->new($args)
+=head2 Amazon::Response->new($args)
 
-Constructs an appropriate SimpleDB response object based on
-the L<HTTP::Response> object provided. This method takes a
+Constructs an appropriate AWS response object based on the
+L<HTTP::Response> object provided. This method takes a
 required HASHREF with two required keys:
 
 =over
@@ -70,47 +72,48 @@ request to the service.
 
 =item account
 
-A reference to the L<Amazon::SimpleDB> account object this
-response is associated to.
+A reference to the AWS account object this response is
+associated to.
 
 =back
 
-=head2 $res->type
+=item $res->type
 
 A string defining the response type that is determined by
 the root element of the XML document that was returned.
 
-=head2 $res->http_response
+=item $res->http_response
 
 Returns the L<HTTP::Response> object used to construct this
 response object.
 
-=head2 $res->http_status
+=item $res->http_status
 
 Returns the HTTP status code for the underlying response.
 
-=head2 $res->content
+=item $res->content
 
-The parsed XML contents of the response.
+The parsed XML contents of the response from L<XML::Simple>.
 
-=head2 $res->request_id
+=item $res->is_success
 
-=head2 $res->box_usage
+Returns true if a successful response is returned, false if
+not.
 
-=head2 $res->is_success
+=item $res->is_error
 
-=head2 $res->is_error
+Returns true if an error response was returned, false if
+not.
 
 =head1 SEE ALSO
 
-L<Amazon::SimpleDB::ErrorResponse>,
-L<Amazon::SimpleDB::GetAttributesResponse>,
-L<Amazon::SimpleDB::ListDomainsResponse>,
-L<Amazon::SimpleDB::QueryResponse>
+L<Amazon::ErrorResponse>, L<Amazon::Agent>
 
 =head1 AUTHOR & COPYRIGHT
 
-Please see the L<Amazon::SimpleDB> manpage for author, copyright, and
-license information.
+Please see the L<Amazon::Agent> manpage for author,
+copyright, and license information.
 
+=cut
 
+=end

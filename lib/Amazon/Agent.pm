@@ -11,22 +11,6 @@ use Amazon::Util qw( is_amazon_error_response );
 
 our $VERSION = '0.01';
 
-# create generate_query name routine in Request. Add to class processing.
-
-# fix error response to handle different known error structures
-# testing plan. best way? via file://
-# CAVEAT: if last_error object falls out of the history calling errors won't produce anything.
-
-# TO DO in P2
-# S3 Support or special agent for Amazon::S3
-# Default to Determined Agent?
-# Bezos support if not P1
-# Expires using relative codes.
-# History "count" with constants - silent (0), default(10), debug(100), verbose(1000);
-#
-# P3+
-# hook to log/store history
-
 sub new {
     my ($class, %param) = @_;
     my $self = bless \%param, $class;
@@ -87,7 +71,7 @@ sub request {
     my $args = {
                 'http_response' => $res,
                 'content'       => $content,
-                'response_type' => $res->header('Content-Type');
+                'response_type' => $res->header('Content-Type'),
     };
     my $fetch = $use_class->new($args);
     unshift @{$self->{history}}, $fetch;
@@ -103,7 +87,7 @@ sub request {
 sub last_response         { return $_[0]->{history}->[0]; }
 sub last_error            { return $_[0]->{last_error}; }
 sub dump_response_history { return Dumper($_[0]->{history}); }
-sub response_history      { return @{$self->{history}}; }
+sub response_history      { return @{$_[0]->{history}}; }
 
 sub errors {
     grep { $_->is_error } @{$_[0]->{history}};
@@ -113,94 +97,94 @@ sub errors {
 
 __END__
 
+=begin
+
 =head1 NAME
 
-URI::Fetch - Smart URI fetching/caching
+Amazon::Agent - A generic user agent for making and
+receiving requests from Amazon web services.
 
 =head1 SYNOPSIS
 
-    use URI::Fetch;
-
-    ## Simple fetch.
-    my $res = URI::Fetch->fetch('http://example.com/atom.xml')
-        or die URI::Fetch->errstr;
-
-    ## Fetch using specified ETag and Last-Modified headers.
-    my $res = URI::Fetch->fetch('http://example.com/atom.xml',
-            ETag => '123-ABC',
-            LastModified => time - 3600,
-    )
-        or die URI::Fetch->errstr;
-
-    ## Fetch using an on-disk cache that URI::Fetch manages for you.
-    my $cache = Cache::File->new( cache_root => '/tmp/cache' );
-    my $res = URI::Fetch->fetch('http://example.com/atom.xml',
-            Cache => $cache
-    )
-        or die URI::Fetch->errstr;
-
 =head1 DESCRIPTION
 
-I<URI::Fetch> is a smart client for fetching HTTP pages, notably
-syndication feeds (RSS, Atom, and others), in an intelligent,
-bandwidth- and time-saving way. That means:
+B<This is code is in the early stages of development. Do not
+consider it stable. Feedback and patches welcome.>
 
-=over 4
+Testing and further development of this package will be as
+packages for working with various AWS services are developed.
 
-=item * GZIP support
+=head1 METHODS
 
-If you have I<Compress::Zlib> installed, I<URI::Fetch> will automatically
-try to download a compressed version of the content, saving bandwidth (and
-time).
+=item Amazon::Agent->new
 
-=item * I<Last-Modified> and I<ETag> support
+=item $agent->request
 
-If you use a local cache (see the I<Cache> parameter to I<fetch>),
-I<URI::Fetch> will keep track of the I<Last-Modified> and I<ETag> headers
-from the server, allowing you to only download pages that have been
-modified since the last time you checked.
+=item $agent->last_response
 
-=item * Proper understanding of HTTP error codes
+=item $agent->last_error
 
-Certain HTTP error codes are special, particularly when fetching syndication
-feeds, and well-written clients should pay special attention to them.
-I<URI::Fetch> can only do so much for you in this regard, but it gives
-you the tools to be a well-written client.
+=item $agent->response_history
 
-The response from I<fetch> gives you the raw HTTP response code, along with
-special handling of 4 codes:
+=item $agent->dump_response_history
 
-=head1 USAGE
+=item $agent->errors
 
-=head2 Amazon::Agent->fetch($uri, %param)
+=head1 DEPENDENCIES
 
-Fetches a page identified by the URI I<$uri>.
+L<Class::ErrorHandler>, L<XML::Simple>, L<Data::Dumper>
 
-Returns a I<Amazon::Response> object that can be inspected
-for success or failure of an Amazon API call. If the method
-returns C<undef> an internal client error has occured. Check
-the C<errstr> method for more information.
+=head1 TO DO
 
-I<%param> can contain:
+=over
 
-=over 4
+=item Create generate_query routine in Amazon::Request.
 
-=item * UserAgent
+=item Fix error response handling to handle different forms
+of error responses from AWS services.
 
-Optional.  You may provide your own LWP::UserAgent instance.  Look
-into L<LWPx::ParanoidUserAgent> if you're fetching URLs given to you
-by possibly malicious parties.
+=item Testing plan needs additional work. What is the best
+way to test this without calling actual services?
+
+=item Decide if S3 support can be worked or if special agent for Amazon::S3
+
+=item AWS account object handling support once developed
+
+=item Expiration time can use relative codes
+
+=item Configurable history "count" with constants - silent
+(0), default(10), debug(100), verbose(1000).
+
+=item Add a hook of some type to log/store history
+
+=head1 KNOWN ISSUES
+
+=over
+
+=item If last_error object falls out of the history calling
+errors won't produce anything. Probably should fix this.
 
 =back
 
+=head1 PARTICIPATION
+
+I welcome and accept patches in diff format. If you wish to
+hack on this code, please fork the git repository found at:
+L<http://github.com/tima/perl-amazon-agent/>. If you have
+something to push back to my repository, just use the "pull
+request" button on the github site.
+
 =head1 LICENSE
 
-I<URI::Fetch> is free software; you may redistribute it and/or modify it
-under the same terms as Perl itself.
+The software is released under the Artistic License. The
+terms of the Artistic License are described at
+L<http://www.perl.com/language/misc/Artistic.html>.
 
 =head1 AUTHOR & COPYRIGHT
 
-Except where otherwise noted, I<URI::Fetch> is Copyright 2004 Benjamin
-Trott, ben+cpan@stupidfool.org. All rights reserved.
+Except where otherwise noted, Amazon::Agent is Copyright
+2009, Timothy Appnel, tima@cpan.org. All rights reserved.
 
 =cut
+
+=end

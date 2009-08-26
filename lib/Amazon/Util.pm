@@ -32,7 +32,7 @@ sub amazon_signature {
     return encode_base64($hashed->digest, '');               # encoded signature
 }
 
-# Won't this die if a hash or like reference got pssed in? do we care?
+# Won't this die if a hash or like reference got passed in? do we care?
 sub is_amazon_error_response {
     my $r = shift;
     die 'A valid response object was not passed in.' unless ref $r;
@@ -54,3 +54,38 @@ sub is_amazon_error_response {
 1;
 
 __END__
+
+=begin
+
+=head1 NAME
+
+Amazon::Util - a class of exportable utility methods for
+making and receiving requests from AWS services
+
+=head1 DESCRIPTION
+
+=head1 METHODS
+
+=item amazon_timestamp
+
+=item amazon_signature
+
+=item is_amazon_error_response
+
+=head1 DEPENDENCIES
+
+L<Exporter>, L<HTTP::Date>, L<Digest::HMAC_SHA1>,
+L<MIME::Base64>
+
+=head1 SEE ALSO
+
+L<Amazon::Agent>
+
+=head1 AUTHOR & COPYRIGHT
+
+Please see the L<Amazon::Agent> manpage for author,
+copyright, and license information.
+
+=cut
+
+=end
