@@ -55,7 +55,7 @@ sub is_amazon_error_response {
 
 __END__
 
-=begin
+=begin pod
 
 =head1 NAME
 
@@ -88,4 +88,4 @@ copyright, and license information.
 
 =cut
 
-=end
+=end pod

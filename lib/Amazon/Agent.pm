@@ -97,7 +97,7 @@ sub errors {
 
 __END__
 
-=begin
+=begin pod
 
 =head1 NAME
 
@@ -187,4 +187,4 @@ Except where otherwise noted, Amazon::Agent is Copyright
 
 =cut
 
-=end
+=end pod

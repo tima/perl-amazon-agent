@@ -30,7 +30,7 @@ sub init {
 
 __END__
 
-=begin
+=begin pod
 
 =head1 NAME
 
@@ -68,4 +68,4 @@ copyright, and license information.
 
 =cut
 
-=end
+=end pod
