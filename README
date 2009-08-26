@@ -1,5 +1,5 @@
-Amazon::Agent is a generic user agent for making and
-receiving requests from Amazon web services.
+Amazon::Agent is a generic Amazon Web Services (AWS) user
+agent for making and receiving requests.
 
 This is code is in the early stages of development. Do not
 consider it stable. Feedback and patches welcome.

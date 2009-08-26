@@ -101,8 +101,8 @@ __END__
 
 =head1 NAME
 
-Amazon::Agent - A generic user agent for making and
-receiving requests from Amazon web services.
+Amazon::Agent - A generic Amazon Web Services (AWS) user
+agent for making and receiving requests.
 
 =head1 SYNOPSIS
 

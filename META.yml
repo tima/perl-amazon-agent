@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:               Amazon-Agent
 version:            0.01
-abstract:           A generic user agent for making and
+abstract:           A generic Amazon Web Services (AWS) user agent for making and receiving requests. 
 author:
     - Timothy Appnel <tima@cpan.org>
 license:            perl
