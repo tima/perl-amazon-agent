@@ -1,0 +1,8 @@
+\.git
+\.old$
+\.bak$
+^build
+^MANIFEST
+^t\b
+test
+^\._
