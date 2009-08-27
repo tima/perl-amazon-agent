@@ -6,6 +6,18 @@ use strict;
 use warnings;
 use Test::More;
 
-eval 'use Test::Pod 1.00';    ## no critic
-plan skip_all => 'Test::Pod 1.00 required for testing POD' if $@;
+my $MODULE = 'Test::Pod 1.00';
+
+# Don't run tests for installs
+unless ($ENV{AUTOMATED_TESTING} or $ENV{RELEASE_TESTING}) {
+    plan(skip_all => "Author tests not required for installation");
+}
+
+# Load the testing module
+eval "use $MODULE";
+if ($@) {
+    $ENV{RELEASE_TESTING}
+      ? die("Failed to load required release-testing module $MODULE")
+      : plan(skip_all => "$MODULE not available for testing");
+}
 all_pod_files_ok();
